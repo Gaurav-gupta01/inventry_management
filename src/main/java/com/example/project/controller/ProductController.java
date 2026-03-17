@@ -3,8 +3,11 @@ package com.example.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +33,23 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    
+    @DeleteMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return "Product deleted successfully!";
+    }
+
+    @PutMapping("/update/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+        Product existingProduct = productService.getProductById(id);
+        if (existingProduct != null) {
+            existingProduct.setName(productDetails.getName());
+            existingProduct.setCategory(productDetails.getCategory());
+            existingProduct.setPrice(productDetails.getPrice());
+            existingProduct.setStockQuantity(productDetails.getStockQuantity());
+            return productService.saveProduct(existingProduct);
+        }
+        return null;
+    }
+
 }

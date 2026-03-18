@@ -57,11 +57,11 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            alert(editId ? "Product Updated!" : "Product Added!");
+            // alert(editId ? "Product Updated!" : "Product Added!");
             cancelEdit(); 
             loadInventory();
         } else {
-            alert("Action failed. Check backend logs.");
+            // alert("Action failed. Check backend logs.");
         }
     } catch (error) {
         console.error("Submit Error:", error);

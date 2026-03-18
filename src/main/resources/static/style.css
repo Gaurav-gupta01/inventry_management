@@ -1,2 +1,42 @@
-        .table-container { background: rgb(211, 232, 163); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.card-body{ background: rgb(237, 197, 235); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.table-container {
+    background: rgb(211, 232, 163);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    background: rgb(237, 197, 235);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(181, 215, 230) 0%, rgba(211, 232, 163, 1) 50%, rgba(211, 232, 163, 1) 50%, rgba(181, 215, 230) 80%);
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input::placeholder {
+    color: #999;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em;
+    font-style: italic;
+    font-weight: bold;
+}
+
+
+#smart {
+    color: #999;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7em;
+    font-style: italic;
+    font-weight: bold;
+}

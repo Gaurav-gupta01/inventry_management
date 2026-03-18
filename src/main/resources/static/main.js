@@ -1,5 +1,5 @@
 const API_URL = '/api/products';
-let editId = null; 
+const editId = null; 
 
 async function loadInventory() {
     try {

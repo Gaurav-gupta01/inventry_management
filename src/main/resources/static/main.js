@@ -1,11 +1,11 @@
 const API_URL = '/api/products';
-const editId = null; 
+let editId = null;
 
 async function loadInventory() {
     try {
         const response = await fetch(`${API_URL}/all`);
         if (!response.ok) throw new Error('Could not fetch data');
-        
+
         const products = await response.json();
         const tableBody = document.getElementById('inventoryBody');
         tableBody.innerHTML = '';
@@ -17,7 +17,7 @@ async function loadInventory() {
 
         products.forEach(p => {
             const productJson = JSON.stringify(p).replace(/"/g, '&quot;');
-            
+
             tableBody.innerHTML += `
                 <tr>
                     <td><strong>#${p.id}</strong></td>
@@ -57,11 +57,13 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // alert(editId ? "Product Updated!" : "Product Added!");
-            cancelEdit(); 
-            loadInventory();
-        } else {
-            // alert("Action failed. Check backend logs.");
+            document.getElementById('productForm').reset();
+            editId = null;
+            const submitBtn = document.querySelector('#productForm button');
+            submitBtn.innerText = "Add Item";
+            submitBtn.className = "btn btn-success w-100";
+            await loadInventory();
+            console.log("UI Updated successfully");
         }
     } catch (error) {
         console.error("Submit Error:", error);
@@ -69,7 +71,7 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
 });
 
 function editItem(product) {
-    editId = product.id; 
+    editId = product.id;
     document.getElementById('name').value = product.name;
     document.getElementById('category').value = product.category;
     document.getElementById('price').value = product.price;
@@ -85,7 +87,6 @@ function editItem(product) {
 function cancelEdit() {
     editId = null;
     document.getElementById('productForm').reset();
-    
     const submitBtn = document.querySelector('#productForm button');
     submitBtn.innerText = "Add Item";
     submitBtn.classList.replace('btn-warning', 'btn-success');

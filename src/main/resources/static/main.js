@@ -26,7 +26,9 @@ async function loadInventory() {
                     <td>₹${p.price.toFixed(2)}</td>
                     <td>${p.stockQuantity}</td>
                     <td class="text-center">
-                        <button class="btn btn-outline-warning btn-sm me-2" onclick="editItem(${productJson})">Edit</button>
+                        <button class="btn btn-outline-success btn-sm me-2" onclick="buyProduct(${p.id}, 1)">Buy 1</button>
+                        
+                        <button class="btn btn-outline-warning btn-sm me-2" onclick="editItem(${JSON.stringify(p).replace(/"/g, '&quot;')})">Edit</button>
                         <button class="btn btn-outline-danger btn-sm" onclick="deleteItem(${p.id})">Delete</button>
                     </td>
                 </tr>`;
@@ -102,6 +104,25 @@ async function deleteItem(id) {
         } catch (error) {
             console.error("Delete Error:", error);
         }
+    }
+}
+
+async function buyProduct(productId, quantityToBuy) {
+    try {
+        const response = await fetch(`${API_URL}/buy/${productId}?quantity=${quantityToBuy}`, {
+            method: 'POST' // Using POST since we are creating a transaction
+        });
+
+        const message = await response.text();
+
+        if (response.ok && !message.includes("Not enough stock")) {
+            alert("Success: " + message);
+            loadInventory(); // Instantly refresh the table to show updated stock!
+        } else {
+            alert("Failed: " + message); // Shows "Not enough stock" if inventory is too low
+        }
+    } catch (error) {
+        console.error("Purchase Error:", error);
     }
 }
 loadInventory();

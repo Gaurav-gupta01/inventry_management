@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project.entity.Product;
@@ -50,6 +51,26 @@ public class ProductController {
             return productService.saveProduct(existingProduct);
         }
         return null;
+    }
+
+    @PostMapping("/buy/{id}")
+    public String buyProduct(@PathVariable Long id, @RequestParam int quantity) {
+        Product product = productService.getProductById(id);
+
+        if (product == null) {
+            return "Product not found!";
+        }
+
+        if (product.getStockQuantity() < quantity) {
+            return "Not enough stock! Available: " + product.getStockQuantity();
+        }
+
+        int newStock = product.getStockQuantity() - quantity;
+        product.setStockQuantity(newStock);
+
+        productService.saveProduct(product);
+
+        return "Purchase successful! New stock: " + newStock;
     }
 
 }
